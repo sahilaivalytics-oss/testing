@@ -1,0 +1,18 @@
+{
+  "name": "aura-testing-client-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NovaStore - High-Performance Client Web Application powered by Aura Feature Flag Platform",
+  "scripts": {
+    "start": "npx -y serve . -p 3000",
+    "dev": "npx -y serve . -p 3000"
+  },
+  "keywords": [
+    "feature-flags",
+    "remote-config",
+    "aura",
+    "demo-store"
+  ],
+  "author": "Sahil Sunil Gavankar",
+  "license": "MIT"
+}

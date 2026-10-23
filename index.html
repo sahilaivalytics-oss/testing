@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaStore — High-Performance E-Commerce (Aura Feature Flag Demo)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark">
+
+  <!-- 1. Aura Feature Flag: Announcement Banner -->
+  <div id="announcement-banner">
+    <span>🔥 <strong>FLASH SALE:</strong> 50% Off Developer Gear with code <code>AURA50</code> — Limited Time!</span>
+    <span style="opacity: 0.8; font-size: 0.75rem;">(Flag: announcement-banner)</span>
+  </div>
+
+  <!-- 2. Aura Live Control Header Bar -->
+  <header class="aura-sync-bar">
+    <div class="aura-sync-left">
+      <div class="aura-badge">
+        <span class="pulse-dot"></span>
+        <span>Aura Connected</span>
+      </div>
+      <span style="color: var(--text-muted); font-size: 0.75rem;">Project: <strong>Aura Platform Core</strong></span>
+    </div>
+
+    <div class="aura-sync-right">
+      <label for="aura-env-select" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500;">Environment:</label>
+      <select id="aura-env-select" class="env-select">
+        <option value="development">Development (Active)</option>
+        <option value="staging">Staging</option>
+        <option value="production">Production</option>
+      </select>
+      <button id="btn-manual-sync" class="btn-sync-refresh" title="Force re-evaluate flags">
+        <span>🔄 Sync Now</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3. Store Navigation Bar -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      <div class="brand-logo-icon">⚡</div>
+      <div class="brand-text">
+        <h1 class="brand-font">NovaStore</h1>
+        <span>Powered by Aura Remote Config</span>
+      </div>
+    </a>
+
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="window.openCart()">
+        <span>🛒 Cart</span>
+        <span id="cart-count" class="cart-count">1</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 4. Hero Section -->
+  <section class="hero">
+    <div class="hero-pill">
+      <span>✨ Client Demonstration Application</span>
+    </div>
+    <h2>Modern Hardware for Engineers</h2>
+    <p>
+      This live store is wired to Aura's Feature Flag Evaluation API. Toggle flags in the Aura control plane to see Dark Mode, AI Copilot, Fast Checkout, and banners react dynamically in real-time.
+    </p>
+
+    <!-- 5. Active Flags Live Ticker -->
+    <div class="flags-ticker-bar">
+      <div class="ticker-title">Active Aura Flags:</div>
+      <div id="ticker-flags-container" class="ticker-items">
+        <!-- Rendered dynamically by app.js -->
+        <span class="ticker-flag on">● dark-mode: ON</span>
+        <span class="ticker-flag on">● ai-copilot-beta: ON</span>
+        <span class="ticker-flag off">○ fast-checkout-v2: OFF</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Main Products Grid -->
+  <main class="products-container">
+    <div id="products-grid" class="products-grid">
+      <!-- Injected by app.js -->
+    </div>
+  </main>
+
+  <!-- 7. Aura Feature Flag: Floating AI Copilot Widget -->
+  <div id="copilot-widget-container">
+    <!-- Chat Modal -->
+    <div id="copilot-modal" class="copilot-modal" style="display: none;">
+      <div class="copilot-header">
+        <div class="copilot-header-info">
+          <span style="font-size: 1.25rem;">🤖</span>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9rem;">AI Shopping Copilot</div>
+            <div style="font-size: 0.7rem; opacity: 0.9;">Flag: ai-copilot-beta</div>
+          </div>
+        </div>
+        <button onclick="window.toggleCopilotModal()" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.25rem;">✕</button>
+      </div>
+
+      <div id="copilot-chat-body" class="copilot-body">
+        <div class="chat-bubble bot">
+          👋 Hi! I'm your AI Shopping Assistant. How can I help you choose the right developer equipment today?
+        </div>
+        <div class="copilot-chips">
+          <button class="copilot-chip" onclick="window.sendCopilotQuery('Recommend a keyboard')">⌨️ Keyboards</button>
+          <button class="copilot-chip" onclick="window.sendCopilotQuery('What is Fast Checkout?')">⚡ Fast Checkout</button>
+          <button class="copilot-chip" onclick="window.sendCopilotQuery('Best monitor for coding')">🖥️ Monitors</button>
+        </div>
+      </div>
+
+      <div class="copilot-footer">
+        <input id="copilot-input-field" type="text" class="copilot-input" placeholder="Ask AI Copilot..." onkeydown="if(event.key==='Enter') window.sendCopilotQuery()">
+        <button class="btn-add-cart" onclick="window.sendCopilotQuery()">Send</button>
+      </div>
+    </div>
+
+    <!-- Trigger Button -->
+    <button class="copilot-trigger-btn" onclick="window.toggleCopilotModal()" title="Open AI Copilot (Flag: ai-copilot-beta)">
+      <span style="font-size: 1.6rem;">🤖</span>
+    </button>
+  </div>
+
+  <!-- 8. Cart Drawer Modal -->
+  <div id="cart-overlay" class="cart-drawer-overlay" onclick="window.closeCart()"></div>
+  <aside id="cart-drawer" class="cart-drawer">
+    <div class="cart-header">
+      <h3 style="font-size: 1.15rem; font-weight: 700;">Shopping Cart</h3>
+      <button onclick="window.closeCart()" style="background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer;">✕</button>
+    </div>
+
+    <div id="cart-items" class="cart-items">
+      <!-- Injected by app.js -->
+    </div>
+
+    <div class="cart-footer">
+      <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 1rem; font-size: 1.1rem;">
+        <span>Total:</span>
+        <span id="cart-total-amount">$189.00</span>
+      </div>
+
+      <!-- Feature Flagged: Fast Checkout Button -->
+      <button id="cart-fast-checkout-btn" class="btn-fast-checkout" onclick="window.triggerFastCheckout()">
+        ⚡ 1-Click Fast Checkout (Aura v2)
+      </button>
+
+      <button style="width: 100%; background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 0.75rem; border-radius: 8px; margin-top: 0.5rem; font-weight: 600; cursor: pointer;" onclick="alert('Standard checkout opened.')">
+        Standard Multi-Step Checkout
+      </button>
+    </div>
+  </aside>
+
+  <!-- 9. Aura Live Inspector Dock (Panel Assessment Showcase) -->
+  <footer id="aura-inspector-dock" class="aura-inspector">
+    <div id="inspector-toggle-btn" class="aura-inspector-header">
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <span style="font-size: 1rem;">🔍</span>
+        <strong>Aura Platform Live Inspector</strong>
+        <span style="color: var(--text-muted); font-size: 0.75rem;">(Click to view raw evaluation payload & live stream logs)</span>
+      </div>
+      <span style="color: var(--primary); font-size: 0.75rem; font-weight: 600;">Toggle Payload ▴</span>
+    </div>
+
+    <div class="aura-inspector-content">
+      <div class="inspector-grid">
+        <div>
+          <div style="color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600; font-size: 0.7rem;">RAW EVALUATION PAYLOAD (GET /api/v1/evaluate):</div>
+          <pre id="inspector-payload" class="inspector-box">{ "dark-mode": true, "ai-copilot-beta": true, "fast-checkout-v2": false }</pre>
+        </div>
+        <div>
+          <div style="color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600; font-size: 0.7rem;">LIVE EVENT STREAM LOGS:</div>
+          <div id="inspector-logs" class="inspector-box">
+            <!-- Injected by app.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
